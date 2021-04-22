@@ -82,11 +82,37 @@ AvailableDays determineAvailableDays(char* plateNumber) {
   return availableDays;
 }
 
+void displayAvailableDays(AvailableDays availableDays) {
+  puts("Travel is on: ");
+  if (availableDays.monday) {
+    puts("MONDAY");
+  }
+  if (availableDays.tuesday) {
+    puts("TUESDAY");
+  }
+  if (availableDays.wednesday) {
+    puts("WEDNESDAY");
+  }
+  if (availableDays.thursday) {
+    puts("THURSDAY");
+  }
+  if (availableDays.friday) {
+    puts("FRIDAY");
+  }
+  if (availableDays.saturday) {
+    puts("SATURDAY")
+  }
+  if (availableDays.sunday) {
+    puts("SUNDAY");
+  }
+}
+
 int main() {
   char* plateNumber = getPlateNumber();
 
   if (isValidPlateNumber(plateNumber)) {
     AvailableDays availableDays = determineAvailableDays(plateNumber);
+    displayAvailableDays(availableDays);
   } else {
     puts("INVALID PLATE NO.");
   }
