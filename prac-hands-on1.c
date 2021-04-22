@@ -11,6 +11,7 @@
 // ANY DAY
 // ALL vehicles allowed on Saturdays and Sundays
 
+#include <ctype.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -29,14 +30,14 @@ char* getPlateNumber(void) {
 
 bool isValidPlateNumber(char* plateNumber) {
   for (int i = 0; i < SEGMENT_LENGTH; i++) {
-    if (plateNumber[i] < 'A' ||
-        plateNumber[i] > 'Z') {  // If first three characters are not letters
+    if (!isalpha(
+            plateNumber[i])) {  // If first three characters are not letters
       return false;
     }
   }
   for (int i = MAX_LENGTH - 1; i > SEGMENT_LENGTH; i--) {
-    if (plateNumber[i] < '0' ||
-        plateNumber[i] > '9') {  // If first three characters are not numbers
+    if (!isdigit(
+            plateNumber[i])) {  // If first three characters are not numbers
       return false;
     }
   }
@@ -47,7 +48,7 @@ int main() {
   char* plateNumber = getPlateNumber();
 
   if (isValidPlateNumber(plateNumber)) {
-    puts("VALID");
+    puts("VALID!");
   } else {
     puts("INVALID!");
   }
