@@ -12,39 +12,31 @@
 // ALL vehicles allowed on Saturdays and Sundays
 
 #include <math.h>
+#include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 
-int getDigit(int plateNo, int digitPlace) {
-  int divisor;
-  divisor = plateNo / pow(10, digitPlace);
-  divisor = divisor % 10;
-  return divisor;
+#define MAX_LENGTH 7
+#define SEGMENT_LENGTH 3
+
+char* getPlateNumber(void) {
+  char* plateNumber = (char*)malloc(MAX_LENGTH * sizeof(char));
+
+  printf("Enter Plate no.: ");
+  scanf("%s", plateNo);
+
+  return plateNumber;
 }
 
 int main() {
-  int plateNo = 0, letterDigit1, letterDigit2, letterDigit3, numDigit4,
-      numDigit5, numDigit6;
-  int digitPlace;
+  char* plateNumber = getPlateNumber();
 
-  printf("Enter Plate no.: ");
-  scanf("%d", &plateNo);
+  if (isValidPlateNumber(plateNumber)) {
+    puts("VALID");
+  } else {
+    puts("INVALID!");
+  }
 
-  printf("Enter digit place: ");
-  scanf("%d", &digitPlace);
-
-  letterDigit1 = getDigit(plateNo, 1);
-  letterDigit2 = getDigit(plateNo, 2);
-  letterDigit3 = getDigit(plateNo, 3);
-  numDigit4 = getDigit(plateNo, 4);
-  numDigit5 = getDigit(plateNo, 5);
-  numDigit6 = getDigit(plateNo, 4);
-
-  printf("%dth digit of %d is %d.\n", digitPlace, plateNo,
-         getDigit(plateNo, digitPlace));
-
-  printf("Plate no. is %d%d%d-%d%d%d", letterDigit1, letterDigit2, letterDigit3,
-         numDigit4, numDigit5, numDigit6);
-  printf("\nTravel is on: ");
-
+  free(plateNumber);
   return 0;
 }
