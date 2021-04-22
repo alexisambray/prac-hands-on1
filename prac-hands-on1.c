@@ -1,16 +1,3 @@
-// Ask for plate number (Assume consist of 7 characters with 4th character being
-// a '-') 3 letters - 3 real numbers else invalid input
-// First digit:
-// If 1 - 2: Vehicles may traverse roads on any day EXCEPT Mondays
-// If 3 - 4: Vehicles may traverse roads on any day EXCEPT Tuesdays
-// If 5 - 6: Vehicles may traverse roads on any day EXCEPT Wednesdays
-// If 7 - 8: Vehicles may traverse roads on any day EXCEPT Thursdays
-// If 9 - 0: Vehicles may traverse roads on any day EXCEPT Fridays
-// First letter:
-// If D (for doctors) and A (for ambulances) and F (for firetrucks) ALLOWED on
-// ANY DAY
-// ALL vehicles allowed on Saturdays and Sundays
-
 #include <ctype.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -18,13 +5,24 @@
 
 #define MAX_LENGTH 7
 #define SEGMENT_LENGTH 3
+#define FIRST_DIGIT 4
+#define FIRST_LETTER 0
+
+typedef struct {
+  bool monday, tuesday, wednesday, thursday, friday, saturday, sunday;
+} AvailableDays;
+
+typedef enum {
+  DOCTOR = 'D',
+  AMBULANCE = 'A',
+  FIRETRUCK = 'F'
+} EmergencyServices;
 
 char* getPlateNumber(void) {
   char* plateNumber = (char*)malloc(MAX_LENGTH * sizeof(char));
 
   printf("Enter Plate no.: ");
   scanf("%s", plateNumber);
-
   return plateNumber;
 }
 
@@ -44,13 +42,53 @@ bool isValidPlateNumber(char* plateNumber) {
   return true;
 }
 
+AvailableDays determineAvailableDays(char* plateNumber) {
+  AvailableDays availableDays = {.monday = true,
+                                 .tuesday = true,
+                                 .wednesday = true,
+                                 .thursday = true,
+                                 .friday = true,
+                                 .saturday = true,
+                                 .sunday = true};
+  switch (plateNumber[FIRST_LETTER]) {
+    case DOCTOR:
+    case AMBULANCE:
+    case FIRETRUCK:
+      break;
+    default:
+      switch (plateNumber[FIRST_DIGIT]) {
+        case '1':
+        case '2':
+          availableDays.monday = false;
+          break;
+        case '3':
+        case '4':
+          availableDays.tuesday = false;
+          break;
+        case '5':
+        case '6':
+          break;
+          availableDays.wednesday = false;
+        case '7':
+        case '8':
+          break;
+          availableDays.thursday = false;
+        case '9':
+        case '0':
+          break;
+          availableDays.friday = false;
+      }
+  }
+  return availableDays;
+}
+
 int main() {
   char* plateNumber = getPlateNumber();
 
   if (isValidPlateNumber(plateNumber)) {
-    puts("VALID!");
+    AvailableDays availableDays = determineAvailableDays(plateNumber);
   } else {
-    puts("INVALID!");
+    puts("INVALID PLATE NO.");
   }
 
   free(plateNumber);
