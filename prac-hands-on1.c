@@ -29,14 +29,14 @@ char* getPlateNumber(void) {
 
 bool isValidPlateNumber(char* plateNumber) {
   for (int i = 0; i < SEGMENT_LENGTH; i++) {
-    if (plateNumber[i] < 65 ||
-        plateNumber[i] > 90) {  // If first three characters are not letters
+    if (plateNumber[i] < 'A' ||
+        plateNumber[i] > 'Z') {  // If first three characters are not letters
       return false;
     }
   }
   for (int i = MAX_LENGTH - 1; i > SEGMENT_LENGTH; i--) {
-    if (plateNumber[i] < 48 ||
-        plateNumber[i] > 58) {  // If first three characters are not numbers
+    if (plateNumber[i] < '0' ||
+        plateNumber[i] > '9') {  // If first three characters are not numbers
       return false;
     }
   }
